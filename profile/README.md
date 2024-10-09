@@ -1,42 +1,43 @@
 ## 1. StereoHub
 
-### 1.1 StereoHub Introduction:
+### 1.1 StereoHub Architecture:
 
-**StereoHub: An interactive cloud platform for downstream analytics at Stereo-Seq.** The `StereoHub` user interface is designed and developed based on the `Shiny v1.0.0` framework of `Python v3.8.10`, providing rich web components for data manipulation, function parameters, and result display, making data analytics parameters as completely intuitive as possible for scientists. The functions of `StereoHub` for Stereo-Seq spatiotemics data analytics are realized by important functional modules such as `stereopy v3.1.3`, `anndata v0.9.2`, `biopython v1.83.0`, `hdf5 v1.14.0`, `panel v0.14.4`, `bokeh v2.4.3`, `plotly v5.23.0`, etc. Thanks to these excellent open-source modules.
+**StereoHub: a comprehensive cloud platform for Stereo-Seq analysis, Single-Cell visualization, and CT segments annotation.**
+
+[***1. Github Team: https://github.com/StereoHub/***](https://github.com/StereoHub/)
+
+[***2. Source Repository: https://github.com/StereoHub/StereoHub***](https://github.com/StereoHub/StereoHub)
+
+[***3. Documents: https://stereohub.github.io***](https://stereohub.github.io)
+
+[***4. Cloud Platform: http://43.242.96.52:5002***](http://43.242.96.52:5002)
+
+
+![StereoHub UI](http://43.242.96.52:5002/image/TechMap.svg)
+
+### 1.2 StereoHub Features:
+
+#### 1.2.1 Stereo-Seq Analysis
+
+Pipelined single-slice analysis and time-based multi-slice analysis.
 
 ![StereoHub UI](http://43.242.96.52:5002/image/StereoHub-UI.jpg)
 
-[***a. StereoHub Team: https://github.com/StereoHub/***](https://github.com/StereoHub/)
+#### 1.2.2 Single-Cell Seurat
 
-[***b. StereoHub Repository: https://github.com/StereoHub/StereoHub***](https://github.com/StereoHub/StereoHub)
+Pipelined analysis and visualization of Single-Cell expression data based on Seurat.
 
-[***c. StereoHub Cloud: http://43.242.96.52:5002***](http://43.242.96.52:5002)
+![StereoHub UI](http://43.242.96.52:5002/image/Seurat.png)
 
-[***d. StereoHub Docker: https://hub.docker.com/r/omicsdocker/stereohub/tags***](https://hub.docker.com/r/omicsdocker/stereohub/tags)
+#### 1.2.3 Computed Tomography Slicer
 
----
+Supports online labeling and feature extraction of DICOM data from CT and NMR.
 
-### 2.1 Stereo-Seq Technology:
+![StereoHub UI](http://43.242.96.52:5002/image/Slicer.png)
 
-[***a. STomics Stereo-Seq: https://stomics.tech***](https://stomics.tech)
+### 1.3 StereoHub Develop or Deploy
 
-[***b. STomics Cloud: https://cloud.stomics.tech***](https://cloud.stomics.tech)
-
-[***c. STOmics Database: https://db.cngb.org/stomics/***](https://db.cngb.org/stomics/)
-
-[***d. ImageStudio, StereoMap: https://stomics.tech/products/BioinfoTools/OfflineSoftware***](https://stomics.tech/products/BioinfoTools/OfflineSoftware)
-
-[***e. STomics Github: https://github.com/STOmics/***](https://github.com/STOmics/)
-
-[***f. Stereopy: https://github.com/STOmics/Stereopy/***](https://github.com/STOmics/Stereopy/)
-
-## 2. For User
-
-[**StereoHub Cloud: http://43.242.96.52:5002**](http://43.242.96.52:5002)
-
-## 3. For Developer
-
-### 3.1 Installing
+#### 1.3.1 Installing
 
 ```bash
 # 1. git clone repository
@@ -75,7 +76,7 @@ conda env create -f stereohub.yml
 conda activate stereohub
 ```
 
-### 3.2 Run, develop and debug
+#### 1.3.2 Run, develop and debug
 
 ```bash
 # 1. For Windows
@@ -98,7 +99,7 @@ python -m shiny run \
   app.py
 ```
 
-### 3.3 Deploy: Shinylive (WebAssembly + Pyodide) (Not Recommended)
+#### 1.3.3 Deploy: Shinylive (WebAssembly + Pyodide) (Not Recommended)
 [**Shinylive: Shiny + WebAssembly**: https://shiny.posit.co/py/docs/shinylive.html](https://shiny.posit.co/py/docs/shinylive.html)
 
 ```bash
@@ -109,7 +110,7 @@ shinylive export myapp site
 python3 -m http.server --directory site 5000
 ```
 
-### 3.4 Deploy: Shiny-Server (Recommended)
+#### 1.3.4 Deploy: Shiny-Server (Recommended)
 [**Self-hosted deployments**: https://shiny.posit.co/py/docs/deploy-on-prem.html](https://shiny.posit.co/py/docs/deploy-on-prem.html)
 
 ```bash
@@ -153,7 +154,7 @@ sudo systemctl status shiny-server
 sudo systemctl restart shiny-server
 ```
 
-### 3.5 Deploy: Docker (Recommended)
+#### 1.3.5 Deploy: Docker (Recommended)
 
 ```bash
 # 1. Build, Run, Push
@@ -174,7 +175,7 @@ docker pull omicsdocker/stereohub:1.1.0
 docker run -d -p 3838:3838 --name stereohub omicsdocker/stereohub:1.1.0
 ```
 
-### 3.6 Deploy: Singularity (Recommended)
+#### 1.3.6 Deploy: Singularity (Recommended)
 
 ```bash
 # 1. Build Singularity Image File
@@ -186,8 +187,26 @@ singularity build stereohub.sif docker://omicsdocker/stereohub:1.0.0
 
 # 1.3 Build based singularity.def
 singularity build stereohub.sif singularity.def
+
+# 1.4 Run SIF
+singularity run --bind /var/log/shiny-server:/var/log/shiny-server stereohub.sif
+sudo singularity run --writable-tmpfs --bind /var/log/shiny-server:/var/log/shiny-server stereohub.sif
 ```
 
-## 4. References
+## 2. Stereo-Seq Technology:
+
+[***a. STomics Stereo-Seq: https://stomics.tech***](https://stomics.tech)
+
+[***b. STomics Cloud: https://cloud.stomics.tech***](https://cloud.stomics.tech)
+
+[***c. STOmics Database: https://db.cngb.org/stomics/***](https://db.cngb.org/stomics/)
+
+[***d. ImageStudio, StereoMap: https://stomics.tech/products/BioinfoTools/OfflineSoftware***](https://stomics.tech/products/BioinfoTools/OfflineSoftware)
+
+[***e. STomics Github: https://github.com/STOmics/***](https://github.com/STOmics/)
+
+[***f. Stereopy: https://github.com/STOmics/Stereopy/***](https://github.com/STOmics/Stereopy/)
+
+### 2.1 References
 
 > Ao Chen, Sha Liao, Mengnan Cheng, Longqi Liu, Xun Xu, Jian Wang. **Spatiotemporal transcriptomic atlas of mouse organogenesis using DNA nanoball-patterned arrays.** ***Cell***, 2022, doi: **https://doi.org/10.1016/j.cell.2022.04.003**
